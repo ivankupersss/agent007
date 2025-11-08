@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Миссия 007 | Уничтожить Феникс</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #00ff41;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 65, 0.1) 0%, transparent 20%);
+        }
+
+        /* Анимация сканирования */
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #00ff41, transparent);
+            animation: scan 3s linear infinite;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Шапка */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid #00ff41;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+        }
+
+        .security-level {
+            background: #00ff41;
+            color: #000;
+            padding: 0.3rem 1rem;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Главная секция */
+        .mission-briefing {
+            margin-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .mission-content {
+            max-width: 800px;
+            background: rgba(0, 20, 0, 0.8);
+            border: 1px solid #00ff41;
+            border-radius: 10px;
+            padding: 3rem;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .mission-title {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px #00ff41;
+        }
+
+        .mission-code {
+            color: #ff4444;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        /* Детали миссии */
+        .mission-details {
+            background: rgba(0, 10, 0, 0.9);
+            border: 1px solid #00ff41;
+            border-radius: 5px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #00ff41;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            color: #00ff41;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            color: #ffffff;
+        }
+
+        /* Секция оборудования */
+        .gadgets {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gadgets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gadget-card {
+            background: rgba(0, 20, 0, 0.8);
+            border: 1px solid #00ff41;
+            border-radius: 5px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .gadget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .gadget-name {
+            color: #00ff41;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Контакты */
+        .contacts {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid #00ff41;
+        }
+
+        .encrypted-message {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid #ff4444;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .phoenix-warning {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid #ffa500;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 1rem auto;
+            max-width: 600px;
+            color: #ffa500;
+        }
+
+        /* Анимация печатания */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .typing-animation {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .mission-title {
+                font-size: 1.8rem;
+            }
+
+            .mission-content {
+                padding: 2rem 1rem;
+            }
+
+            .gadgets-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Линия сканирования -->
+    <div class="scan-line"></div>
+
+    <!-- Шапка -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">00<span style="color: #ff4444">7</span></div>
+            <div class="security-level">СОВЕРШЕННО СЕКРЕТНО</div>
+        </div>
+    </header>
+
+    <!-- Брифинг миссии -->
+    <section class="mission-briefing">
+        <div class="mission-content">
+            <h1 class="mission-title typing-animation">Операция "Уничтожить Феникс"</h1>
+            <div class="mission-code">Код миссии: 007-Φ-24</div>
+            
+            <div class="mission-details">
+                <div class="detail-item">
+                    <span class="detail-label">ЦЕЛЬ:</span>
+                    <span class="detail-value">Найти все камни и разгадать шифр террористической группировки</span>
+                </div>
+                
+                <div class="detail-item">
+                    <span class="detail-label">МЕСТОПОЛОЖЕНИЕ:</span>
+                    <span class="detail-value">Вилла агента 007</span>
+                </div>
+                
+                <div class="detail-item">
+                    <span class="detail-label">СРОК ВЫПОЛНЕНИЯ:</span>
+                    <span class="detail-value">Несколько часов!</span>
+                </div>
+                
+                <div class="detail-item">
+                    <span class="detail-label">ОПЕРАТИВНЫЙ СОСТАВ:</span>
+                    <span class="detail-value">Агент 007 (Борис 007), Координация (Елена 004)</span>
+                </div>
+                
+                <div class="detail-item">
+                    <span class="detail-label">УГРОЗЫ:</span>
+                    <span class="detail-value">Команда «ФЕНИКС» хочет испортить ваш праздник</span>
+                </div>
+            </div>
+
+            <div class="phoenix-warning">
+                <strong>ВНИМАНИЕ!</strong><br>
+                Нужно быть предельно осторожным изучая покинутый объект. Нам неизвестны технологии и ловушки группировки "Феникс".
+            </div>
+        </div>
+    </section>
+
+    <!-- Оборудование -->
+    <section class="gadgets">
+        <h2 style="text-align: center; margin-bottom: 2rem; text-transform: uppercase;">Специальное Оборудование</h2>
+        <div class="gadgets-grid">
+            <div class="gadget-card">
+                <div class="gadget-name">Коммуникационный центр</div>
+                <ul style="color: #ffffff; list-style-type: none;">
+                    <li>► Группа поддержки с главного центра</li>
+                    <li>► Спутниковая связь</li>
+                    <li>► Шифрование уровня AES-256</li>
+                    <li>► Прямой канал с Еленой 004</li>
+                </ul>
+            </div>
+            
+            <div class="gadget-card">
+                <div class="gadget-name">Модифицированный M4</div>
+                <ul style="color: #ffffff; list-style-type: none;">
+                    <li>► Местоположение - неизвестно</li>
+                    <li>► Система бесшумного запуска</li>
+                    <li>► Тепловизионный прицел</li>
+                    <li>► Ручное управление</li>
+                </ul>
+            </div>
+            
+            <div class="gadget-card">
+                <div class="gadget-name">Система поиска камней</div>
+                <ul style="color: #ffffff; list-style-type: none;">
+                    <li>► Детектор энергетических сигнатур</li>
+                    <li>► Анализатор шифров "Феникса"</li>
+                    <li>► Карта расположения артефактов</li>
+                    <li>► Дешифратор в реальном времени</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="contacts">
+        <div class="mission-details" style="max-width: 600px;">
+            <div class="detail-item">
+                <span class="detail-label">КОД ДОСТУПА К ВИЛЛЕ:</span>
+                <span class="detail-value">БОРИС - 007 - ФЕНИКС</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">ЭКСТРЕННЫЙ КАНАЛ СВЯЗИ:</span>
+                <span class="detail-value">Частота 007.404 MHz, код "Птица в огне"</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">ТОЧКА ВСТРЕЧИ:</span>
+                <span class="detail-value">Не назначено</span>
+            </div>
+        </div>
+        
+        <div class="encrypted-message">
+            <strong>ПОСЛЕДНЕЕ СООБЩЕНИЕ ОТ ЕЛЕНЫ 004:</strong><br>
+            БОРИС, "ФЕНИКС" АКТИВИРОВАЛСЯ. КАМНИ ДОЛЖНЫ БЫТЬ НАЙДЕНЫ ДО ЗАКАТА. 
+            ШИФР МОЖЕТ ИЗМЕНИТЬ ВСЁ. БУДЬ ОСТОРОЖЕН - ОНИ ЗНАЮТ О ТВОЁМ МЕСТОПОЛОЖЕНИИ.
+            СООБЩЕНИЕ УНИЧТОЖИТСЯ ЧЕРЕЗ 10 СЕКУНД...
+        </div>
+    </section>
+
+    <script>
+        // Анимация уничтожения сообщения
+        setTimeout(() => {
+            const messages = document.querySelectorAll('.encrypted-message');
+            messages.forEach(message => {
+                message.style.transition = 'all 2s ease';
+                message.style.opacity = '0';
+                message.style.transform = 'scale(0.8)';
+            });
+        }, 10000);
+
+        // Эффект мигающего текста
+        const titles = document.querySelectorAll('.mission-title, .gadget-name');
+        titles.forEach(title => {
+            setInterval(() => {
+                title.style.textShadow = title.style.textShadow ? '' : '0 0 20px #00ff41';
+            }, 1000);
+        });
+
+        // Случайные помехи
+        setInterval(() => {
+            const scanLine = document.querySelector('.scan-line');
+            scanLine.style.animationDuration = (2 + Math.random()) + 's';
+        }, 3000);
+
+        // Запрет правого клика (безопасность)
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            alert('Доступ запрещен! Это секретные материалы.');
+        });
+
+        // Предупреждение при закрытии
+        window.addEventListener('beforeunload', (e) => {
+            e.preventDefault();
+            e.returnValue = '';
+        });
+
+        // Случайные вспышки предупреждения о Фениксе
+        setInterval(() => {
+            const warning = document.querySelector('.phoenix-warning');
+            if (Math.random() > 0.7) {
+                warning.style.boxShadow = '0 0 20px rgba(255, 165, 0, 0.5)';
+                setTimeout(() => {
+                    warning.style.boxShadow = 'none';
+                }, 500);
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
